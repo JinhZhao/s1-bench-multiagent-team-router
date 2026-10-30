@@ -1,0 +1,159 @@
+{
+  "version": "S1-2026-10-30",
+  "release_date": "2026-10-30",
+  "benchmarks": {
+    "MARBLE": {
+      "name": "Multi-Agent Reasoning Benchmark",
+      "repository": "https://github.com/ulab-uiuc/MARBLE",
+      "git_commit": "8d60fa17b5596b44458a52d4296061b9fc13d6f2",
+      "commit_sha_file": "MARBLE.commit.sha",
+      "environment": {
+        "python_version": "3.10",
+        "package_manager": "poetry",
+        "poetry_version": "2.1.4",
+        "conda_environment": "s1-marble",
+        "dependencies_file": "MARBLE.pip-freeze.txt",
+        "dependency_count": 161
+      },
+      "data": {
+        "location": "data/",
+        "scenes_available": ["werewolf", "coding", "database", "reasoning", "research", "world"],
+        "scenes_with_evaluator": ["werewolf"],
+        "scene_inventory_file": "MARBLE_scene_inventory.json"
+      },
+      "known_issues": [
+        {
+          "severity": "P0",
+          "file": "marble/evaluator/evaluator.py",
+          "line": 324,
+          "issue": "SyntaxError: except clause inside if block",
+          "patch_required": true,
+          "patch_file": "patches/marble_evaluator_syntax.patch"
+        }
+      ],
+      "official_commands": {
+        "install": "conda create -y -n s1-marble python=3.10 && conda activate s1-marble && pip install poetry==2.1.4 && poetry install",
+        "smoke_test": "cd scripts/werewolf && bash run_simulation.sh",
+        "evaluate": "python marble/evaluator/werewolf_evaluator.py --top_level_dir werewolf_log --config_path marble/configs/test_config/werewolf_config/werewolf_config.yaml"
+      }
+    },
+    "TeamBench": {
+      "name": "Team Benchmark",
+      "repository": "https://github.com/ybkim95/TeamBench",
+      "git_commit": "d185aef1916fd86a9ba554d581fd256319a973af",
+      "commit_sha_file": "TeamBench.commit.sha",
+      "environment": {
+        "python_version": "3.11",
+        "package_manager": "uv",
+        "uv_version": "0.13.6",
+        "conda_environment": "s1-teambench",
+        "virtual_environment": ".venv",
+        "dependencies_file": "TeamBench.pip-freeze.txt",
+        "dependency_count": 209,
+        "docker_required": true
+      },
+      "docker": {
+        "images": {
+          "teambench-executor": "03f115882e4b",
+          "teambench-planner": "e73e189404e8",
+          "teambench-verifier": "2237013fd69e"
+        },
+        "digest_file": "TeamBench.docker-digests.txt"
+      },
+      "data": {
+        "task_manifest": "leaderboard/data/leaderboard_90_tasks.json",
+        "task_count": 90,
+        "task_sha256": "f210a53097304eabc59ad0fd9c8d579fa7c81ffb13b7e097cba03e330db3f2fe",
+        "seed": 0,
+        "conditions": ["oracle", "restricted", "full", "team_no_plan", "team_no_verify"]
+      },
+      "known_issues": [
+        {
+          "severity": "P2",
+          "issue": "compose.yaml not found (only docker-compose.yml)",
+          "impact": "minor"
+        }
+      ],
+      "official_commands": {
+        "install": "conda create -y -n s1-teambench python=3.11 && conda activate s1-teambench && pip install uv && uv sync --all-extras",
+        "docker_build": "docker compose build",
+        "smoke_test": "uv run python -m harness.ablation --model mock --tasks DIST1_queue_race --seeds 0 --conditions oracle restricted full team_no_plan team_no_verify --output /tmp/s1-teambench-mock",
+        "run": "uv run python -m harness.ablation --model $S1_MODEL --tasks $(jq -r '.tasks[].task_id' leaderboard/data/leaderboard_90_tasks.json) --seeds 0 --conditions oracle restricted full team_no_plan team_no_verify --output shared/ablation_results/s1_teambench90_seed0.json"
+      }
+    },
+    "CLASHarness": {
+      "name": "Multi-Agent Conflict Harness",
+      "repository": "https://github.com/google-research/CLASHarness",
+      "git_commit": "234161ddc44755017215dd734d38be15419a45e0",
+      "commit_sha_file": "CLASHarness.commit.sha",
+      "environment": {
+        "python_version": "3.11",
+        "package_manager": "pip",
+        "conda_environment": "s1-clash",
+        "dependencies_file": "CLASHarness.pip-freeze.txt",
+        "dependency_count": 71
+      },
+      "data": {
+        "dataset_version": "v8",
+        "components": ["tasks-v8", "splits-v8"],
+        "episode_manifest": "data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/total.txt",
+        "episode_count": 600,
+        "episode_sha256": "fc300b1a0da3c64e74759afc21dc427603391c9ec01e20b74ea6e5a72cb3a410",
+        "task_directories": 600,
+        "total_size_gb": 5.4,
+        "checksum_verified": true,
+        "data_source": "HuggingFace yuxianglai117/CLASHarness"
+      },
+      "known_issues": [
+        {
+          "severity": "P0",
+          "file": "docs/analysis/analysis_v8/tools/build_behavior_report.py",
+          "line": 4910,
+          "issue": "SyntaxError: f-string with backslash requires Python ≥3.12",
+          "patch_required": true,
+          "patch_file": "patches/clasharness_python_version.patch"
+        },
+        {
+          "severity": "P0",
+          "file": "pyproject.toml",
+          "issue": "dependencies array under [project.urls] instead of [project]",
+          "patch_required": true,
+          "patch_file": "patches/clasharness_pyproject.patch"
+        }
+      ],
+      "official_commands": {
+        "install": "conda create -y -n s1-clash python=3.11 && conda activate s1-clash && pip install huggingface_hub pytest Pillow matplotlib numpy anthropic google-genai google-api-python-client google-auth google-auth-oauthlib",
+        "download_data": "python tools/download_data.py --repo yuxianglai117/CLASHarness --component tasks-v8 --component splits-v8",
+        "verify_data": "python tools/checksum_corpus.py --root data --verify CHECKSUMS.txt",
+        "smoke_test": "python examples/train_and_eval.py --agent llm --llm-provider openai --model $S1_MODEL --llm-judge-provider openai --llm-judge-model $S1_JUDGE_MODEL --task-data-dir data/multiagent_conflict_data_v8_Gemini_3_6_flash --split total --limit 1 --mode multi --max-steps 20 --parallel-workers 1 --collect-data --out-dir /tmp/s1-clash-smoke"
+      }
+    }
+  },
+  "cross_benchmark": {
+    "environment_isolation": {
+      "separate_conda_envs": true,
+      "python_versions": {
+        "MARBLE": "3.10",
+        "TeamBench": "3.11",
+        "CLASHarness": "3.11"
+      }
+    },
+    "data_integrity": {
+      "TeamBench_tasks_verified": true,
+      "CLASHarness_episodes_verified": true,
+      "CLASHarness_data_complete": true,
+      "MARBLE_scene_inventory_complete": true
+    },
+    "api_requirements": {
+      "all_require_api_keys": true,
+      "g3_status": "BLOCKED"
+    }
+  },
+  "reproducibility_assets": {
+    "git_commit_shas_recorded": true,
+    "data_sha256_recorded": true,
+    "dependency_snapshots_saved": true,
+    "docker_image_ids_recorded": true,
+    "audit_script_functional": true
+  }
+}

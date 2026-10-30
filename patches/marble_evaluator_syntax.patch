@@ -1,0 +1,30 @@
+diff --git a/marble/evaluator/evaluator.py b/marble/evaluator/evaluator.py
+index 1234567..abcdefg 100644
+--- a/marble/evaluator/evaluator.py
++++ b/marble/evaluator/evaluator.py
+@@ -312,6 +312,7 @@ class Evaluator:
+         try:
+             content = assistant_answer.strip()
+ 
++            # Parse JSON from response
+             json_start = content.find('{')
+             json_end = content.rfind('}') + 1
+ 
+@@ -320,11 +321,12 @@ class Evaluator:
+                 ratings = json.loads(json_str)
+                 # Ensure ratings are integers
+                 ratings_dict: Dict[str, int] = {k: int(v) for k, v in ratings.items()}
+-                return ratings_dict
+-            except json.JSONDecodeError:
+-                self.logger.error("Failed to parse JSON from assistant's answer.")
+-                return {}
+-        else:
++                return ratings_dict            
++            else:
++                self.logger.error("No JSON found in assistant's answer.")
++                return {}
++
++        except json.JSONDecodeError:
+             self.logger.error("Failed to parse JSON from assistant's answer.")
+             return {}
+ 

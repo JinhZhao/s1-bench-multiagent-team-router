@@ -1,0 +1,376 @@
+{
+  "manifest_version": "1.0",
+  "release": "S1-2026-10-30",
+  "generated": "2026-10-30T13:30:00Z",
+  "benchmarks": {
+    "MARBLE": {
+      "description": "Multi-Agent Reasoning Benchmark - Complex collaboration tasks",
+      "scenes": [
+        {
+          "scene_id": "werewolf",
+          "name": "Werewolf Game",
+          "category": "social_deduction",
+          "has_dedicated_evaluator": true,
+          "evaluator": "marble/evaluator/werewolf_evaluator.py",
+          "config": "marble/configs/test_config/werewolf_config/werewolf_config.yaml",
+          "run_script": "scripts/werewolf/run_simulation.sh",
+          "eval_script": "scripts/werewolf/run_evaluation.sh",
+          "seed": 0,
+          "grader": "official",
+          "status": "AVAILABLE",
+          "notes": "Official example with dedicated evaluator; requires API key"
+        },
+        {
+          "scene_id": "coding",
+          "name": "Coding Tasks",
+          "category": "code_generation",
+          "has_dedicated_evaluator": false,
+          "config": "marble/configs/coding_configs",
+          "run_script": "scripts/coding/run_demo.sh",
+          "seed": 0,
+          "grader": "general_evaluator",
+          "status": "AVAILABLE_UNVERIFIED",
+          "notes": "Demo script available; uses general evaluator (unverified without API)"
+        },
+        {
+          "scene_id": "database",
+          "name": "Database Tasks",
+          "category": "database_management",
+          "has_dedicated_evaluator": false,
+          "config": "marble/configs/test_config_database",
+          "run_script": "scripts/database/run_simulation.sh",
+          "seed": 0,
+          "grader": "general_evaluator",
+          "status": "AVAILABLE_UNVERIFIED",
+          "notes": "Simulation script available; uses general evaluator (unverified)"
+        },
+        {
+          "scene_id": "reasoning",
+          "name": "Reasoning Tasks",
+          "category": "logical_reasoning",
+          "has_dedicated_evaluator": false,
+          "config": "marble/configs/test_config_reasoning.yaml",
+          "run_script": "scripts/reasoning/run_reasoning.sh",
+          "variants": [
+            "cot",
+            "react",
+            "reflexion"
+          ],
+          "seed": 0,
+          "grader": "general_evaluator",
+          "status": "AVAILABLE_UNVERIFIED",
+          "notes": "Multiple reasoning configs; uses general evaluator (unverified)"
+        },
+        {
+          "scene_id": "research",
+          "name": "Research Tasks",
+          "category": "research_assistance",
+          "has_dedicated_evaluator": false,
+          "config": "marble/configs/test_config_research",
+          "run_script": "scripts/research/run_simulation.sh",
+          "seed": 0,
+          "grader": "general_evaluator",
+          "status": "AVAILABLE_UNVERIFIED",
+          "notes": "Simulation script available; uses general evaluator (unverified)"
+        },
+        {
+          "scene_id": "world",
+          "name": "World Simulation",
+          "category": "world_modeling",
+          "has_dedicated_evaluator": false,
+          "config": "marble/configs/test_config_world",
+          "run_script": "scripts/world/run.sh",
+          "seed": 0,
+          "grader": "general_evaluator",
+          "status": "AVAILABLE_UNVERIFIED",
+          "notes": "Run script available; uses general evaluator (unverified)"
+        }
+      ],
+      "total_scenes": 6,
+      "scenes_with_official_evaluator": 1,
+      "git_commit": "8d60fa17b5596b44458a52d4296061b9fc13d6f2"
+    },
+    "TeamBench": {
+      "description": "Team Benchmark - Role isolation and collaboration",
+      "task_manifest": "leaderboard/data/leaderboard_90_tasks.json",
+      "task_manifest_sha256": "f210a53097304eabc59ad0fd9c8d579fa7c81ffb13b7e097cba03e330db3f2fe",
+      "seed": 0,
+      "conditions": [
+        {
+          "condition_id": "oracle",
+          "description": "Single agent with full tool access (baseline, not optimal)",
+          "grader": "official"
+        },
+        {
+          "condition_id": "restricted",
+          "description": "Team with restricted tool access",
+          "grader": "official"
+        },
+        {
+          "condition_id": "full",
+          "description": "Team with full tool access",
+          "grader": "official"
+        },
+        {
+          "condition_id": "team_no_plan",
+          "description": "Team without planning phase",
+          "grader": "official"
+        },
+        {
+          "condition_id": "team_no_verify",
+          "description": "Team without verification phase",
+          "grader": "official"
+        }
+      ],
+      "extension_conditions": [
+        {
+          "condition_id": "global",
+          "description": "S1 participant architecture with global coordinator",
+          "grader": "official",
+          "type": "participant_extension"
+        },
+        {
+          "condition_id": "no-global",
+          "description": "S1 participant architecture without global coordinator",
+          "grader": "official",
+          "type": "participant_extension"
+        }
+      ],
+      "task_ids": [
+        "TRAP1_spec_conflict",
+        "TRAP5_security_theater",
+        "TRAP6_deprecated_api",
+        "CR4_api_review",
+        "CR6_review_checklist",
+        "CR1_review_respond",
+        "CROSS1_api_contract",
+        "CROSS2_schema_evolution",
+        "CROSS3_protocol_bridge",
+        "D6_data_reconcile",
+        "D3_schema_migration",
+        "D4_data_pipeline",
+        "D5_query_optimize",
+        "D7_etl_reconciliation",
+        "DIST1_queue_race",
+        "DIST2_consensus_partition",
+        "SYNTH1_distributed_debug",
+        "GH1006_spaCy_13068",
+        "GH1007_spaCy_13040",
+        "GH1011_great_expectati_8062",
+        "INC6_deadlock",
+        "INC10_rollback_plan",
+        "INC1_cascade_failure",
+        "INC2_data_corruption",
+        "INC3_memory_leak",
+        "INC4_dns_miscfg",
+        "IR2_misinformation_trap",
+        "IR3_multi_source",
+        "IR4_temporal",
+        "INT1_pipeline_repair",
+        "LH2_budgeted_workflow",
+        "LH5_data_migration",
+        "LH4_staged_deploy",
+        "CROSS6_grpc_rest_bridge",
+        "JS2_xss_sanitize",
+        "MULTI2_microservice_debug",
+        "NEG1_tradeoff_config",
+        "LH3_multi_service",
+        "O6_perf_tuning",
+        "TRAP3_metric_mirage",
+        "CROSS7_config_drift",
+        "MULTI5_deploy_pipeline",
+        "API1_version_compat",
+        "GH14_celery_chain_fail",
+        "INFRA2_cicd_repair",
+        "TS1_type_mismatch",
+        "GH103_redis-py_3998",
+        "GH112_redis-py_3996",
+        "GH120_redis-py_3863",
+        "GH121_quart_302",
+        "GH128_mitmproxy_8046",
+        "GH12_click_envvar_flag",
+        "GH136_mitmproxy_8054",
+        "GH139_marshmallow_2894",
+        "GH13_starlette_bg_block",
+        "GH140_marshmallow_2874",
+        "GH141_urllib3_3736",
+        "GH143_mitmproxy_8095",
+        "PIPE2_data_pipeline",
+        "PIPE3_msg_queue",
+        "PIPE3_stream_processing",
+        "P2_spec_arbitration",
+        "P3_access_control",
+        "P4_data_retention",
+        "RDS10_survey_analysis",
+        "RDS11_survivorship_bias",
+        "RDS12_simpsons_income",
+        "CRYPTO1_nonce_reuse",
+        "CRYPTO3_cert_chain",
+        "CRYPTO4_kdf_migration",
+        "SEC8_dependency_audit",
+        "CRYPTO5_tls_config",
+        "CRYPTO6_token_validation",
+        "GO1_concurrency_fix",
+        "SCALE1_codebase_migration",
+        "GH10_retry_backoff",
+        "GH11_middleware_order",
+        "GH1_flask_session_ctx",
+        "GH2_click_flag_value",
+        "SPEC5_config_system",
+        "SPEC2_api_design",
+        "GH7_fixture_scope_leak",
+        "TEST2_regression",
+        "TEST3_integration",
+        "TEST4_property",
+        "RDS13_smote_leakage",
+        "RDS14_housing_leakage",
+        "RDS15_taxi_circular",
+        "RDS16_retail_phacking",
+        "RDS17_macro_spurious"
+      ],
+      "total_tasks": 90,
+      "status": "VERIFIED",
+      "git_commit": "d185aef1916fd86a9ba554d581fd256319a973af",
+      "notes": "All 90 tasks verified; GH120_redis-py_3863 under review (official 90 maintained)"
+    },
+    "CLASHarness": {
+      "description": "Multi-Agent Conflict Harness - Conflict resolution and fault isolation",
+      "dataset_version": "v8",
+      "episode_manifest": "data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/total.txt",
+      "episode_manifest_sha256": "fc300b1a0da3c64e74759afc21dc427603391c9ec01e20b74ea6e5a72cb3a410",
+      "components": [
+        "tasks-v8",
+        "splits-v8"
+      ],
+      "splits": {
+        "total": {
+          "count": 600,
+          "file": "data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/total.txt",
+          "status": "VERIFIED"
+        },
+        "train": {
+          "count": "N/A",
+          "file": "data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/train.txt"
+        },
+        "dev": {
+          "count": "N/A",
+          "file": "data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/dev.txt"
+        },
+        "test": {
+          "count": "N/A",
+          "file": "data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/test.txt"
+        }
+      },
+      "seed": 0,
+      "conditions": [
+        {
+          "condition_id": "flat",
+          "description": "Single-agent baseline",
+          "grader": "official"
+        },
+        {
+          "condition_id": "dynamic",
+          "description": "S1 participant dynamic multi-team architecture",
+          "grader": "official"
+        }
+      ],
+      "evaluation_metrics": [
+        "all_pass",
+        "mean_score",
+        "conflict_resolution",
+        "fault_isolation",
+        "state_consistency"
+      ],
+      "total_episodes": 600,
+      "task_directories": 600,
+      "total_size_gb": 5.4,
+      "data_source": "HuggingFace yuxianglai117/CLASHarness",
+      "checksum_verified": true,
+      "status": "VERIFIED",
+      "git_commit": "234161ddc44755017215dd734d38be15419a45e0",
+      "notes": "All 600 episodes verified; data download complete (5.4 GB)"
+    }
+  },
+  "experiment_modes": {
+    "MARBLE": [
+      "flat",
+      "fixed",
+      "dynamic"
+    ],
+    "TeamBench": [
+      "oracle",
+      "restricted",
+      "full",
+      "team_no_plan",
+      "team_no_verify",
+      "global",
+      "no-global"
+    ],
+    "CLASHarness": [
+      "flat",
+      "dynamic"
+    ]
+  },
+  "scoring": {
+    "base_total": 100,
+    "bonus_total": 15,
+    "breakdown": {
+      "A_MARBLE_task_completion": 18,
+      "A_MARBLE_routing_gain": 12,
+      "B_TeamBench_task_quality": 15,
+      "B_TeamBench_role_isolation": 15,
+      "C_CLASHarness_conflict_resolution": 18,
+      "C_CLASHarness_fault_isolation": 7,
+      "cross_architecture_authenticity": 10,
+      "cross_reproducibility_compliance": 5
+    }
+  },
+  "known_issues": [
+    {
+      "benchmark": "MARBLE",
+      "severity": "P0",
+      "issue": "SyntaxError in evaluator.py:324",
+      "status": "PATCH_REQUIRED",
+      "blocks": [
+        "pytest",
+        "evaluation"
+      ]
+    },
+    {
+      "benchmark": "CLASHarness",
+      "severity": "P0",
+      "issue": "SyntaxError in build_behavior_report.py:4910 (Python ≥3.12 required)",
+      "status": "PATCH_REQUIRED",
+      "blocks": [
+        "pytest"
+      ]
+    },
+    {
+      "benchmark": "CLASHarness",
+      "severity": "P0",
+      "issue": "pyproject.toml misconfiguration",
+      "status": "PATCH_REQUIRED",
+      "blocks": [
+        "editable_install"
+      ]
+    },
+    {
+      "benchmark": "ALL",
+      "severity": "P1",
+      "issue": "Missing model API keys",
+      "status": "BLOCKED",
+      "blocks": [
+        "G3_real_task_scoring"
+      ]
+    }
+  ],
+  "validation_status": {
+    "G0_environment": "COMPLETE",
+    "G1_installation": "COMPLETE_WITH_WORKAROUNDS",
+    "G2_data_validation": "COMPLETE",
+    "G3_real_scoring": "BLOCKED",
+    "G4_adapter": "NOT_STARTED",
+    "G5_trace_system": "NOT_STARTED",
+    "G6_release": "NOT_STARTED"
+  }
+}

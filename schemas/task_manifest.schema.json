@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "S1 Task Manifest",
+  "description": "Frozen list of all tasks across A/B/C benchmarks. Each task has a stable ID, seed, and expected grader.",
+  "type": "object",
+  "required": ["manifest_version", "benchmarks", "generated_at"],
+  "properties": {
+    "manifest_version": {"type": "string", "const": "1.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "benchmarks": {
+      "type": "object",
+      "required": ["MARBLE", "TeamBench", "CLASHarness"],
+      "properties": {
+        "MARBLE": {
+          "type": "object",
+          "required": ["conditions", "tasks"],
+          "properties": {
+            "conditions": {
+              "type": "array",
+              "items": {"type": "string", "enum": ["flat", "fixed", "dynamic"]},
+              "minItems": 3, "maxItems": 3
+            },
+            "tasks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["task_id", "scene", "seed", "grader"],
+                "properties": {
+                  "task_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$"},
+                  "scene": {"type": "string"},
+                  "seed": {"type": "integer", "minimum": 0},
+                  "grader": {"type": "string"},
+                  "eligible": {"type": "boolean", "default": true},
+                  "exclusion_reason": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "TeamBench": {
+          "type": "object",
+          "required": ["conditions", "tasks"],
+          "properties": {
+            "conditions": {
+              "type": "array",
+              "items": {"type": "string", "enum": ["oracle", "restricted", "full", "team_no_plan", "team_no_verify", "global", "no-global"]},
+              "minItems": 5
+            },
+            "tasks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["task_id", "seed", "grader"],
+                "properties": {
+                  "task_id": {"type": "string"},
+                  "seed": {"type": "integer", "const": 0},
+                  "grader": {"type": "string", "const": "official"},
+                  "eligible": {"type": "boolean", "default": true}
+                }
+              },
+              "minItems": 90, "maxItems": 90
+            }
+          }
+        },
+        "CLASHarness": {
+          "type": "object",
+          "required": ["conditions", "tasks"],
+          "properties": {
+            "conditions": {
+              "type": "array",
+              "items": {"type": "string", "enum": ["flat", "dynamic"]},
+              "minItems": 2, "maxItems": 2
+            },
+            "tasks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["episode_id", "seed", "grader"],
+                "properties": {
+                  "episode_id": {"type": "string"},
+                  "seed": {"type": "integer", "const": 0},
+                  "grader": {"type": "string", "const": "official"}
+                }
+              },
+              "minItems": 600, "maxItems": 600
+            }
+          }
+        }
+      }
+    }
+  }
+}

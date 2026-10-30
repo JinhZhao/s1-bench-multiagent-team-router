@@ -1,0 +1,54 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 1234567..abcdefg 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -19,6 +19,23 @@ requires-python = ">=3.11"
+ keywords = ["benchmark", "agents", "multi-agent", "coordination", "conflict", "evaluation"]
+ classifiers = [
+     "Development Status :: 3 - Alpha",
++]
++dependencies = [
++    # Model providers.
++    # Both anthropic SDK majors work: 1.x dropped `temperature` from the
++    # `messages.create()` signature, so the client probes the signature at
++    # runtime and routes sampling params through `extra_body` when needed.
++    # The JSON sent on the wire is identical either way.
++    "anthropic>=0.40.0",
++    "google-genai>=1.0.0",
++    # Google API access used by calendar/tasks skills
++    "google-api-python-client>=2.130.0",
++    "google-auth>=2.29.0",
++    "google-auth-oauthlib>=1.2.0",
++    # Visual asset generation and rendering
++    "Pillow>=9.0",
++    "matplotlib>=3.7.0",
++    "numpy>=1.24",
+ ]
+ 
+ [project.urls]
+@@ -37,23 +54,6 @@ Documentation = "https://github.com/google-research/CLASHarness#documentation"
+ dependencies = [
+     # Model providers.
+     # Both anthropic SDK majors work: 1.x dropped `temperature` from the
+-    # `messages.create()` signature, so the client probes the signature at
+-    # runtime and routes sampling params through `extra_body` when needed.
+-    # The JSON sent on the wire is identical either way.
+-    "anthropic>=0.40.0",
+-    "google-genai>=1.0.0",
+-    # Google API access used by calendar/tasks skills
+-    "google-api-python-client>=2.130.0",
+-    "google-auth>=2.29.0",
+-    "google-auth-oauthlib>=1.2.0",
+-    # Visual asset generation and rendering
+-    "Pillow>=9.0",
+-    "matplotlib>=3.7.0",
+-    "numpy>=1.24",
+-]
+-
+-[project.optional-dependencies]
+-dev = [
+-    "pytest>=8.0",
+-    "pytest-asyncio>=0.23",
+-]
+\ No newline at end of file
++    # `messages.create()` signature, so the client probes the signature at

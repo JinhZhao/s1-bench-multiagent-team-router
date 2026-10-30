@@ -1,0 +1,14 @@
+# S1 Benchmark Checksums
+# Generated: 2026-10-30
+# Format: SHA256  relative_path_from_s1-benchmarks
+
+# Git commit SHAs
+e2b64e0c59665bb1bcbe81eae98739144f5cad0432278ca105dbabf3bbfdb718  MARBLE.commit.sha
+51f9bdad35c43c8b49ad03ee483d087dc229d240e0678b4e39fc89e4bc5d3160  TeamBench.commit.sha
+29a632b29cbfe4b11e106d55062c8d6d45830d80e4d33e56daa8552b5774a271  CLASHarness.commit.sha
+
+# TeamBench task manifest
+f210a53097304eabc59ad0fd9c8d579fa7c81ffb13b7e097cba03e330db3f2fe  TeamBench/leaderboard/data/leaderboard_90_tasks.json
+
+# CLASHarness episode manifest
+fc300b1a0da3c64e74759afc21dc427603391c9ec01e20b74ea6e5a72cb3a410  CLASHarness/data/multiagent_conflict_data_v8_Gemini_3_6_flash/datasets/total.txt

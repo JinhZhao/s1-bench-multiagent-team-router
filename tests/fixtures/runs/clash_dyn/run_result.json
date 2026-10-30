@@ -1,0 +1,18 @@
+{
+  "run_id": "clash-dyn-1",
+  "task_id": "conflict_vlm_access_request_approval_v01_r01",
+  "benchmark": "CLASHarness",
+  "mode": "dynamic",
+  "model_id": "test-model",
+  "seed": 0,
+  "outcome": {
+    "status": "PASS",
+    "elapsed_ms": 3000
+  },
+  "official_score": {
+    "grader_kind": "official",
+    "passed": true,
+    "partial_score": 1.0
+  },
+  "events_file": "tests\\fixtures\\runs\\clash_dyn\\events.jsonl"
+}

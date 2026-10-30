@@ -1,0 +1,18 @@
+{
+  "run_id": "marble-dyn-1",
+  "task_id": "werewolf",
+  "benchmark": "MARBLE",
+  "mode": "dynamic",
+  "model_id": "test-model",
+  "seed": 0,
+  "outcome": {
+    "status": "PASS",
+    "elapsed_ms": 1000
+  },
+  "official_score": {
+    "grader_kind": "official",
+    "passed": true,
+    "partial_score": 1.0
+  },
+  "events_file": "tests\\fixtures\\runs\\marble_dynamic\\events.jsonl"
+}

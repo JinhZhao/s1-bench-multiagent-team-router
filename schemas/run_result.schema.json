@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "S1 Run Result",
+  "description": "One run = one (task, condition, seed) execution. Contains official grader output plus participant extension metrics.",
+  "type": "object",
+  "required": ["run_id", "task_id", "benchmark", "mode", "model_id", "seed", "outcome", "official_score", "events_file"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "task_id": {"type": "string"},
+    "benchmark": {"type": "string", "enum": ["MARBLE", "TeamBench", "CLASHarness"]},
+    "mode": {"type": "string"},
+    "model_id": {"type": "string"},
+    "model_revision": {"type": "string"},
+    "seed": {"type": "integer"},
+    "outcome": {
+      "type": "object",
+      "required": ["status", "elapsed_ms"],
+      "properties": {
+        "status": {"type": "string", "enum": ["PASS", "FAIL", "TIMEOUT", "ERROR", "ENV_BLOCKED", "NOT_SCORED"]},
+        "elapsed_ms": {"type": "integer", "minimum": 0},
+        "failure_reason": {"type": "string"},
+        "official_grader_exit": {"type": "integer"}
+      }
+    },
+    "official_score": {
+      "type": "object",
+      "required": ["grader_kind", "passed", "partial_score"],
+      "properties": {
+        "grader_kind": {"type": "string", "enum": ["official", "official_adapter", "NOT_SCORED"]},
+        "passed": {"type": "boolean"},
+        "partial_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "checks": {"type": "object"}
+      }
+    },
+    "participant_extension": {
+      "type": "object",
+      "properties": {
+        "handoffs_requested": {"type": "integer", "minimum": 0},
+        "handoffs_accepted": {"type": "integer", "minimum": 0},
+        "routing_decisions": {"type": "integer", "minimum": 0},
+        "retries": {"type": "integer", "minimum": 0},
+        "errors_recovered": {"type": "integer", "minimum": 0}
+      }
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "reasoning_tokens": {"type": "integer", "minimum": 0},
+        "cached_tokens": {"type": "integer", "minimum": 0},
+        "tool_calls": {"type": "integer", "minimum": 0},
+        "usage_source": {"type": "string", "enum": ["api_response", "estimated", "UNAVAILABLE"]}
+      }
+    },
+    "events_file": {"type": "string"},
+    "source_commit": {"type": "string"},
+    "dataset_sha256": {"type": "string"},
+    "budget": {
+      "type": "object",
+      "properties": {
+        "max_steps": {"type": "integer"},
+        "max_tokens": {"type": "integer"},
+        "max_elapsed_s": {"type": "integer"}
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "run_id": "tb-full-1",
+  "task_id": "TRAP1_spec_conflict",
+  "benchmark": "TeamBench",
+  "mode": "full",
+  "model_id": "test-model",
+  "seed": 0,
+  "outcome": {
+    "status": "PASS",
+    "elapsed_ms": 2000
+  },
+  "official_score": {
+    "grader_kind": "official",
+    "passed": true,
+    "partial_score": 1.0
+  },
+  "events_file": "tests\\fixtures\\runs\\tb_full\\events.jsonl"
+}

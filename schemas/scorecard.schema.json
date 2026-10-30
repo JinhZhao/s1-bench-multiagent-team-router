@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "S1 Scorecard",
+  "description": "Final scorecard aggregating per-benchmark scores and cross-cutting metrics.",
+  "type": "object",
+  "required": ["scorecard_version", "submission_id", "generated_at", "benchmarks", "totals"],
+  "properties": {
+    "scorecard_version": {"type": "string", "const": "1.0"},
+    "submission_id": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "model_id": {"type": "string"},
+    "model_revision": {"type": "string"},
+    "benchmarks": {
+      "type": "object",
+      "required": ["MARBLE", "TeamBench", "CLASHarness"],
+      "properties": {
+        "MARBLE": {
+          "type": "object",
+          "required": ["task_completion", "routing_gain", "total"],
+          "properties": {
+            "task_completion": {
+              "type": "object",
+              "properties": {
+                "max_points": {"type": "number", "const": 18},
+                "awarded": {"type": "number"},
+                "tasks_run": {"type": "integer"},
+                "tasks_passed": {"type": "integer"},
+                "pass_rate": {"type": "number"},
+                "mean_partial": {"type": "number"}
+              }
+            },
+            "routing_gain": {
+              "type": "object",
+              "properties": {
+                "max_points": {"type": "number", "const": 12},
+                "awarded": {"type": "number"},
+                "dynamic_vs_fixed_delta": {"type": "number"},
+                "dynamic_vs_flat_delta": {"type": "number"},
+                "idle_reroutes": {"type": "integer"},
+                "dependency_errors": {"type": "integer"}
+              }
+            },
+            "total": {"type": "number"}
+          }
+        },
+        "TeamBench": {
+          "type": "object",
+          "required": ["task_quality", "role_isolation", "total"],
+          "properties": {
+            "task_quality": {
+              "type": "object",
+              "properties": {
+                "max_points": {"type": "number", "const": 15},
+                "awarded": {"type": "number"},
+                "pass_rate": {"type": "number"},
+                "mean_partial": {"type": "number"}
+              }
+            },
+            "role_isolation": {
+              "type": "object",
+              "properties": {
+                "max_points": {"type": "number", "const": 15},
+                "awarded": {"type": "number"},
+                "tni": {"type": "number"},
+                "global_vs_noglobal_delta": {"type": "number"}
+              }
+            },
+            "total": {"type": "number"}
+          }
+        },
+        "CLASHarness": {
+          "type": "object",
+          "required": ["conflict_handling", "fault_isolation", "total"],
+          "properties": {
+            "conflict_handling": {
+              "type": "object",
+              "properties": {
+                "max_points": {"type": "number", "const": 18},
+                "awarded": {"type": "number"},
+                "pass_rate": {"type": "number"},
+                "mean_partial": {"type": "number"},
+                "dynamic_vs_flat_delta": {"type": "number"}
+              }
+            },
+            "fault_isolation": {
+              "type": "object",
+              "properties": {
+                "max_points": {"type": "number", "const": 7},
+                "awarded": {"type": "number"},
+                "real_trace_examples": {"type": "integer"},
+                "lock_permission_failures": {"type": "integer"},
+                "idempotent_recoveries": {"type": "integer"}
+              }
+            },
+            "total": {"type": "number"}
+          }
+        }
+      }
+    },
+    "cross_cutting": {
+      "type": "object",
+      "properties": {
+        "architecture_authenticity": {
+          "type": "object",
+          "properties": {
+            "max_points": {"type": "number", "const": 10},
+            "awarded": {"type": "number"},
+            "team_count": {"type": "integer"},
+            "dual_layer_routing": {"type": "boolean"},
+            "traceable_handoffs": {"type": "integer"}
+          }
+        },
+        "reproducibility": {
+          "type": "object",
+          "properties": {
+            "max_points": {"type": "number", "const": 5},
+            "awarded": {"type": "number"},
+            "sha_verified": {"type": "boolean"},
+            "task_manifest_complete": {"type": "boolean"},
+            "trace_complete": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "bonus": {
+      "type": "object",
+      "properties": {
+        "catalysis_demo": {"type": "number", "minimum": 0, "maximum": 15}
+      }
+    },
+    "totals": {
+      "type": "object",
+      "required": ["base_total", "bonus_total", "grand_total"],
+      "properties": {
+        "base_total": {"type": "number", "minimum": 0, "maximum": 100},
+        "bonus_total": {"type": "number", "minimum": 0, "maximum": 15},
+        "grand_total": {"type": "number", "minimum": 0, "maximum": 115}
+      }
+    }
+  }
+}
